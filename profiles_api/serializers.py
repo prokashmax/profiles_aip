@@ -39,4 +39,20 @@ class UpdateOwnProfile(permissions.BasePermission):
             return True
 
         return obj.id == request.user.id
+class UpdateOwnStatus(permissions.BasePermission):
+    """Allow users to update their own status"""
 
+    def has_object_permission(self, request, view, obj):
+        """Check the user is trying to update their own status"""
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.user_profile.id == request.user.id
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """Serializes profile feed items"""
+
+    class Meta:
+        model = models.ProfileFeedItem
+        fields = ('id', 'user_profile', 'status_text', 'created_on')
+        extra_kwargs = {'user_profile': {'read_only': True}}
