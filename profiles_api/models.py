@@ -51,4 +51,4 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         """ return repragentaion of user email id"""
-        return self.name
+        return self.email
